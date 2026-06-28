@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" type="/images/x-icon" href="/images/go.ico">
+</head>
+<body style="margin:0;background:#000;display:flex;justify-content:center;align-
+items:center;height:100vh;">
+
+<img id="cam" />
+
+<script>
+const img = document.getElementById("cam");
+
+const ws = new WebSocket("ws://localhost:5000");
+
+ws.binaryType = "blob";
+
+ws.onopen = () => console.log("connected");
+
+ws.onerror = (e) => console.log("ws error", e);
+
+ws.onmessage = (event) => {
+    console.log("received data...")
+    const url = URL.createObjectURL(event.data);
+    img.src = url;
+    setTimeout(() => URL.revokeObjectURL(url), 100);
+};
+</script>
