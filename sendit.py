@@ -19,10 +19,22 @@ async def send_frames():
         while True:
             start = time.time()
             ret, frame = vid.read()
+            #
+            # added this line to downsize my frames
+            # thinking of putting multiple cameras on one page
+            #
+            # frame2=cv2.resize(frame,(320,240),interpolation=cv2.INTER_AREA)
+            
             if not ret:
                 print("camera error")
                 break
             _, jpg = cv2.imencode(".jpg",frame,[cv2.IMWRITE_JPEG_QUALITY, 25])
+            # 
+            # with a reduced image size, increasing the quality up to 50 didn't change
+            # the bandwidth much - cpu usage on my old 8 core machine stayed about 20%
+            #
+            #  _, jpg = cv2.imencode(".jpg",frame,[cv2.IMWRITE_JPEG_QUALITY, 50])
+            
             await websocket.send(jpg.tobytes())
             print("sent frame", count)
             count += 1
