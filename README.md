@@ -12,7 +12,7 @@ I keep this new websockets server in a narrow lane, only my home IP can send to 
 
 Now I have three pieces of this web streamer.  Sendit.py which takes frames from the webcam and sends them to Server.py which serves them to the webcam.html page on port 5000 (chosen arbitrarily, mainly because I had that open in my FW home zone for test servers)
 
-Things still to do:
+**Things still to do**
   1.  fix error handling, the server doesn't crash when i browser closes now, but still have unhandled errors.
   2.  multiple webcams, would make this useful as a multi-user video chat.
   3.  drop frames when it gets out of sync, needs to be closer to realtime.
