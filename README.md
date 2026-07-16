@@ -8,7 +8,9 @@ Yesterday I asked Chatgpt how I could improve that, maybe by avoiding disk write
 
 My server setup is fairly simple, a Fedora 43 server with python (my main website runs under Apache and modperl, i have https running solely under a Go server that keeps the certs up to day with autocert)
 
-I keep this new websockets server in a narrow lane, only my home IP can send to it.  Separate FW zones using Firewall-cmd makes it a dream to keep safe (ssh is limited to my FW's home zone too so my logs don't get clogged up with all the bot login attempts).
+I keep this new websockets server in a narrow lane, only my home IP can send to it.  Separate FW zones using Firewall-cmd makes it a dream to keep safe.  ssh is limited to my FW's home zone too so my logs don't get clogged up with all the bot login attempts.  I do now need another public zone just for all the websocket experiments i have running.  Setting ingress
+to your home IP, you do have to remember to also add services like http and https if you want to be able to see those on the
+server.  Always learn from gotchas.
 
 Now I have three pieces of this web streamer.  Sendit.py which takes frames from the webcam and sends them to Server.py which serves them to the webcam.html page on port 5000 (chosen arbitrarily, mainly because I had that open in my FW home zone for test servers)
 
@@ -18,4 +20,4 @@ Now I have three pieces of this web streamer.  Sendit.py which takes frames from
   3.  drop frames when it gets out of sync, needs to be closer to realtime.
   4.  look into different quality streams.  25% jpeg quality only uses about 2.5mpbs, while 90% uses more like 7.5mbps
   5.  needs compression or maybe ffmpeg to send the stream, probably an actual video format versus image by image
-  6.  other things I haven't thought of yet (like TLS connections)  July16 Note: implementing SSL/TLS in my chat server was incredibly easy, add an import for ssl add two other lines to set the contect and change the serve line and print noting where it started.  Voila, security...
+  6.  other things I haven't thought of yet (like TLS connections)  July16 Note: implementing SSL/TLS in my chat server was incredibly easy, add an import for ssl add two other lines to set the context and change the serve line and print noting where it started.  Voila, security...
